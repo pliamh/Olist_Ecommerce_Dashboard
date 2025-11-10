@@ -1,34 +1,46 @@
-# Olist E-Commerce Dashboard
+# Olist E-Commerce — Freight & Pricing Mini-Project
 
-This project analyzes pricing, freight costs, and free-shipping behavior in the **Olist E-Commerce dataset (Brazil)**.  
-Data was cleaned and processed in Python, then visualized in Tableau.
+This mini-project cleans Olist order-line data (Brazil), builds a simple baseline to predict freight cost, and publishes a Tableau dashboard.
 
 ---
 
 ### 🔍 Dashboard Overview
 - **Top-left:** Average Freight Cost by Product Category  
 - **Top-right:** Orders per Product Category  
-- **Bottom-left:** Relationship between Product Price and Freight Cost  
-- **Bottom-right:** Free Shipping Orders by Product Category  
+- **Bottom-left:** Price vs Freight by Category  
+- **Bottom-right:** Free-Shipping Orders by Category  
+
+See the image: [`reports/Olist_Ecommerce_Dashboard.png`](reports/Olist_Ecommerce_Dashboard.png)  
+Open the workbook: [`reports/Olist_Ecommerce_Dashboard.twbx`](reports/Olist_Ecommerce_Dashboard.twbx)
 
 ---
 
-### 🧹 Data Preparation
-The dataset was cleaned and exported from Python as:
-`data_work/order_products_clean.csv`
+### 🧹 Data Prep (Python)
+Cleaned and exported in the notebook:
+- [`notebooks/01_load_and_preview.ipynb`](notebooks/01_load_and_preview.ipynb)
 
-Processing included:
-- Merging orders, products, and shipping data  
-- Fixing category names and filling missing values  
-- Flagging free-shipping orders  
-- Removing zero or invalid prices and freight values  
-
----
-
-### 📊 Tools Used
-- **Python:** pandas, numpy, matplotlib, scikit-learn  
-- **Tableau:** dashboard design and visualization  
+Key steps:
+- Merged orders, order_items, and products
+- Translated/standardized categories
+- Flagged free-shipping rows (freight_value == 0)
+- Removed invalid zeros in price/freight; fixed tiny weight outliers
+- Saved tidy output:
+  - [`notebooks/data_processed/order_products_clean.csv`](notebooks/data_processed/order_products_clean.csv)
+  - [`notebooks/data_processed/order_products_clean.parquet`](notebooks/data_processed/order_products_clean.parquet)
 
 ---
 
-### 📁 Files
+### 🧠 Baseline Model
+- Features: price, category (one-hot), simple “order age” from purchase timestamp  
+- Model: `LinearRegression`  
+- Result: **MAE ≈ 7–8** (freight units) on hold-out split
+
+---
+
+### ⚙️ Reproduce (quick)
+```bash
+python -m venv .venv
+.venv\Scripts\activate
+pip install pandas scikit-learn matplotlib pyarrow
+jupyter lab
+# open and run: notebooks/01_load_and_preview.ipynb
