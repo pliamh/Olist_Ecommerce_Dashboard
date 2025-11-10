@@ -44,3 +44,11 @@ python -m venv .venv
 pip install pandas scikit-learn matplotlib pyarrow
 jupyter lab
 # open and run: notebooks/01_load_and_preview.ipynb
+
+---
+
+### 🔎 Key insights (quick read)
+- **Freight varies a lot by category.** Furniture/decor and garden tools run higher on average than books or small electronics.
+- **Most orders aren’t free shipping.** A tiny share shows `freight_value = 0`, concentrated in a few sellers/categories (likely promos).
+- **Price ↔ freight is only loosely related.** Heavier/bulkier categories push freight more than item price alone.
+- **Baseline MAE ≈ 7–8** suggests simple features capture some signal, but there’s clear room to improve with distance/weight features.
